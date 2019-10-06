@@ -1,0 +1,48 @@
+PACKAGE
+<CompilationUnit> := 
+	<PackageDeclaration> <ImportDeclarationList> <TypeDeclarationList> |
+	<PackageDeclaration> <ImportDeclarationList> |
+	<PackageDeclaration> <TypeDeclarationList> |
+	<PackageDeclaration> |
+	<ImportDeclarationList> <TypeDeclarationList> |
+	<ImportDeclarationList> |
+	<TypeDeclarationList> |
+	empty
+
+<PackageDeclaration> :=
+	<PackageModifierList> package <IdentifierList> ; |
+	package <IdentifierList> ;
+
+<PackageModifierList> :=
+	<PackageModifier> | <PackageModifier> <PackageModifierList>
+
+<PackageModifier> :=
+	<Annotation>
+
+<IdentifierList> :=
+	<Identifier> | <Identifier> . <IdentifierList>
+
+<ImportDeclarationList> := 
+	<ImportDeclaration> | <ImportDeclaration> <ImportDeclarationList>
+
+<ImportDeclaration> :=
+	<SingelTypeImportDeclaration> | <TypeImportOnDemandDeclaration> |
+	<SingleStaticImportDeclaration> | <StaticImportOnDemandDeclaration>
+
+<SingelTypeImportDeclaration> :=
+	import <TypeName> ;
+
+<TypeImportOnDemandDeclaration> :=
+	import <PackageOrTypeName> . * ;
+
+<SingleStaticImportDeclaration> :=
+	import static <TypeName> . <Identifier> ;
+
+<StaticImportOnDemandDeclaration> :=
+	import static <TypeName> . * ;
+
+<TypeDeclarationList> :=
+	<TypeDeclaration> | <TypeDeclaration> <TypeDeclarationList>
+
+<TypeDeclaration> :=
+	<ClassDeclaration> | <InterfaceDeclaration> | ;

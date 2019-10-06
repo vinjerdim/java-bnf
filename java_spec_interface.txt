@@ -1,0 +1,112 @@
+INTERFACES
+<InterfaceDeclaration> :=
+	<NormalInterfaceDeclaration> | <AnnotationTypeDeclaration>
+
+<NormalInterfaceDeclaration> :=
+	<InterfaceModifierList> interface <Identifier> <TypeParameters> <ExtendsInterfaces> <InterfaceBody> |
+	<InterfaceModifierList> interface <Identifier> <TypeParameters> <InterfaceBody> |
+	<InterfaceModifierList> interface <Identifier> <ExtendsInterfaces> <InterfaceBody> |
+	<InterfaceModifierList> interface <Identifier> <InterfaceBody> |
+	interface <Identifier> <TypeParameters> <ExtendsInterfaces> <InterfaceBody> |
+	interface <Identifier> <TypeParameters> <InterfaceBody> |
+	interface <Identifier> <ExtendsInterfaces> <InterfaceBody> |
+	interface <Identifier> <InterfaceBody> |
+
+<InterfaceModifierList> :=
+	<InterfaceModifier> | <InterfaceModifier> <InterfaceModifierList>
+
+<InterfaceModifier> :=
+	<Annotation> | public | protected | private | abstract | static | strictfp
+
+<ExtendsInterfaces> :=
+	extends <InterfaceTypeList>
+
+<InterfaceBody> :=
+	{ <InterfaceMemberDeclarationList> } | { }
+
+<InterfaceMemberDeclarationList> :=
+	<InterfaceMemberDeclaration> | <InterfaceMemberDeclaration> <InterfaceMemberDeclarationList>
+
+<InterfaceMemberDeclaration> :=
+	<ConstantDeclaration> | <InterfaceMethodDeclaration> | 
+	<ClassDeclaration> | <InterfaceDeclaration> | ;
+
+<ConstantDeclaration> :=
+	<ConstantModifierList> <UnannType> <VariableDeclaratorList> ; |
+	<UnannType> <VariableDeclaratorList> ;
+
+<ConstantModifierList> :=
+	<ConstantModifier> | <ConstantModifier> <ConstantModifierList>
+
+<ConstantModifier> :=
+	<Annotation> | public | static | final
+
+<InterfaceMethodDeclaration> := 
+	<InterfaceMethodModifierList> <MethodHeader> <MethodBody> |
+	<MethodHeader> <MethodBody>
+
+<InterfaceMethodModifierList> :=
+	<InterfaceMethodModifier> | <InterfaceMethodModifier> <InterfaceMethodModifierList>
+
+<InterfaceMethodModifier> :=
+	<Annotation> | public | abstract | default | static | strictfp
+
+<AnnotationTypeDeclaration> :=
+	<InterfaceModifierList> @ interface <Identifier> <AnnotationTypeBody> |
+	@ interface <Identifier> <AnnotationTypeBody>
+
+<AnnotationTypeBody> :=
+	{ <AnnotationTypeMemberDeclarationList> } | { }
+
+<AnnotationTypeMemberDeclarationList> :=
+	<AnnotationTypeMemberDeclaration> | <AnnotationTypeMemberDeclaration> <AnnotationTypeMemberDeclarationList>
+
+<AnnotationTypeMemberDeclaration> :=
+	<AnnotationTypeElementDeclaration> | <ConstantDeclaration> | 
+	<ClassDeclaration> | <InterfaceDeclaration> | ;
+
+<AnnotationTypeElementDeclaration>:
+	<AnnotationTypeElementModifierList> <UnannType> <Identifier> ( ) <Dims> <DefaultValue> ; |
+	<AnnotationTypeElementModifierList> <UnannType> <Identifier> ( ) <Dims> ; |
+	<AnnotationTypeElementModifierList> <UnannType> <Identifier> ( ) <DefaultValue> ; |
+	<AnnotationTypeElementModifierList> <UnannType> <Identifier> ( ) ; |
+	<UnannType> <Identifier> ( ) <Dims> <DefaultValue> ; |
+	<UnannType> <Identifier> ( ) <Dims> ; |
+	<UnannType> <Identifier> ( ) <DefaultValue> ; |
+	<UnannType> <Identifier> ( ) ;
+
+<AnnotationTypeElementModifierList> :=
+	<AnnotationTypeElementModifier> | <AnnotationTypeElementModifier> <AnnotationTypeElementModifierList>
+
+<AnnotationTypeElementModifier> :=
+	<Annotation> | public | abstract
+
+<DefaultValue> :=
+	default <ElementValue>
+
+<Annotation> :=
+	<NormalAnnotation> |  <MarkerAnnotation> | <SingleElementAnnotation>
+
+<NormalAnnotation> :=
+	@ <TypeName> ( <ElementValuePairList> ) | @ <TypeName> ( )
+
+<ElementValuePairList> :=
+	<ElementValuePair> | <ElementValuePair> , <ElementValuePairList>
+
+<ElementValuePair> :=
+	<Identifier> = <ElementValue>
+
+<ElementValue> :=
+	<ConditionalExpression> | <ElementValueArrayInitializer> | <Annotation>
+
+<ElementValueArrayInitializer> :=
+	{ <ElementValueList> , } |	{ <ElementValueList> } | { , } | { }
+
+<ElementValueList> :=
+	<ElementValue> | <ElementValue> , <ElementValueList>
+
+<MarkerAnnotation> :=
+	@ <TypeName>
+
+<SingleElementAnnotation> :=
+	@ <TypeName> ( <ElementValue> )

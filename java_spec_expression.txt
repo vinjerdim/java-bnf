@@ -1,0 +1,253 @@
+<Primary> :=
+	<PrimaryNoNewArray> | 
+	<ArrayCreationExpression>
+
+<PrimaryNoNewArray> :=
+	<Literal> | 
+	<ClassLiteral> | 
+	this | 
+	<TypeName> . this | 
+	( <Expression> ) | 
+	<ClassInstanceCreationExpression> | 
+	<FieldAccess> | 
+	<ArrayAccess> | 
+	<MethodInvocation> | 
+	<MethodReference>
+
+<ClassLiteral>:
+	<TypeName> <Brackets> . class |
+	<TypeName> . class |
+	<NumericType> <Brackets> . class |
+	<NumericType> . class |
+	boolean <Brackets> . class |
+	boolean . class |
+	void . class
+
+<Brackets> :=
+	[ ] | [ ] <Brackets>
+
+<ClassInstanceCreationExpression> :=
+	<UnqualifiedClassInstanceCreationExpression> |
+	<ExpressionName> . <UnqualifiedClassInstanceCreationExpression> |
+	<Primary> . <UnqualifiedClassInstanceCreationExpression>
+
+<UnqualifiedClassInstanceCreationExpression> :=
+	new <TypeArguments> <ClassOrInterfaceTypeToInstantiate> ( <ArgumentList> ) <ClassBody> |
+	new <TypeArguments> <ClassOrInterfaceTypeToInstantiate> ( <ArgumentList> ) |
+	new <TypeArguments> <ClassOrInterfaceTypeToInstantiate> ( ) <ClassBody> |
+	new <TypeArguments> <ClassOrInterfaceTypeToInstantiate> ( ) |
+	new <ClassOrInterfaceTypeToInstantiate> ( <ArgumentList> ) <ClassBody> |
+	new <ClassOrInterfaceTypeToInstantiate> ( <ArgumentList> ) |
+	new <ClassOrInterfaceTypeToInstantiate> ( ) <ClassBody> |
+	new <ClassOrInterfaceTypeToInstantiate> ( )
+
+<ClassOrInterfaceTypeToInstantiate> :=
+	<AnnotationList> <Identifier> <AnnotationIdentifierList> <TypeArgumentsOrDiamond> |
+	<AnnotationList> <Identifier> <AnnotationIdentifierList> |
+	<AnnotationList> <Identifier> <TypeArgumentsOrDiamond> |
+	<AnnotationList> <Identifier> |
+	<Identifier> <AnnotationIdentifierList> <TypeArgumentsOrDiamond> |
+	<Identifier> <AnnotationIdentifierList> |
+	<Identifier> <TypeArgumentsOrDiamond> |
+	<Identifier>
+
+<AnnotationList> :=
+	<Annotation> | <Annotation> <AnnotationList>
+
+<AnnotationIdentifierList> :=
+	. <AnnotationList> <Identifier> | 
+	. <AnnotationList> <Identifier> <AnnotationIdentifierList> |
+	. <Identifier> | 
+	. <Identifier> <AnnotationIdentifierList>
+
+<TypeArgumentsOrDiamond> :=
+	<TypeArguments> | <>
+
+<FieldAccess> :=
+	<Primary> . <Identifier> |
+	super . <Identifier> |
+	<TypeName> . super . <Identifier>
+
+<ArrayAccess> :=
+	<ExpressionName> <Expression> |
+	<ExpressionName> |
+	<PrimaryNoNewArray> <Expression> |
+	<PrimaryNoNewArray>
+
+<MethodInvocation> :=
+	<MethodName> ( <ArgumentList> ) | <MethodName> ( ) |
+	<TypeName> . <TypeArguments> <Identifier> ( <ArgumentList> ) |
+	<TypeName> . <TypeArguments> <Identifier> ( ) |
+	<TypeName> . <Identifier> ( <ArgumentList> ) |
+	<TypeName> . <Identifier> ( ) |
+	<ExpressionName> . <TypeArguments> <Identifier> ( <ArgumentList> ) |
+	<ExpressionName> . <TypeArguments> <Identifier> ( ) |
+	<ExpressionName> . <Identifier> ( <ArgumentList> ) |
+	<ExpressionName> . <Identifier> ( ) |
+	<Primary> . <TypeArguments> <Identifier> ( <ArgumentList> ) |
+	<Primary> . <TypeArguments> <Identifier> ( ) |
+	<Primary> . <Identifier> ( <ArgumentList> ) |
+	<Primary> . <Identifier> ( ) |
+	super . <TypeArguments> <Identifier> ( <ArgumentList> ) |
+	super . <TypeArguments> <Identifier> ( ) |
+	super . <Identifier> ( <ArgumentList> ) |
+	super . <Identifier> ( ) |
+	<TypeName> . super . <TypeArguments> <Identifier> ( <ArgumentList> ) |
+	<TypeName> . super . <TypeArguments> <Identifier> ( ) |
+	<TypeName> . super . <Identifier> ( <ArgumentList> ) |
+	<TypeName> . super . <Identifier> ( )
+
+<ArgumentList> :=
+	<Expression> | <Expression> , <ArgumentList>
+
+<MethodReference> :=
+	<ExpressionName> :: <TypeArguments> <Identifier> |
+	<ExpressionName> :: <Identifier> |
+	<ReferenceType> :: <TypeArguments> <Identifier> |
+	<ReferenceType> :: <Identifier> |
+	<Primary> :: <TypeArguments> <Identifier> |
+	<Primary> :: <Identifier> |
+	super :: <TypeArguments> <Identifier> |
+	super :: <Identifier> |
+	<TypeName> . super :: <TypeArguments> <Identifier> |
+	<TypeName> . super :: <Identifier> |
+	<ClassType> :: <TypeArguments> new |
+	<ClassType> :: new | <ArrayType> :: new
+
+<ArrayCreationExpression> :=
+	new <PrimitiveType> <DimExprList> <Dims> |
+	new <PrimitiveType> <DimExprList> |
+	new <ClassOrInterfaceType> <DimExprList> <Dims> |
+	new <ClassOrInterfaceType> <DimExprList> |
+	new <PrimitiveType> <Dims> <ArrayInitializer> |
+	new <ClassOrInterfaceType> <Dims> <ArrayInitializer>
+
+<DimExprList> :=
+	<DimExpr> | <DimExpr> <DimExprList>
+
+<DimExpr> :=
+	<AnnotationList> <Expression> |
+	<AnnotationList> |
+	<Expression> |
+	empty
+
+<Expression> :=
+	<LambdaExpression> | <AssignmentExpression>
+
+<LambdaExpression> :=
+	<LambdaParameters> -> <LambdaBody>
+
+<LambdaParameters> :=
+	<Identifier> |
+	( <FormalParameterList> ) |
+	( <InferredFormalParameterList> ) |
+	( )
+
+<InferredFormalParameterList> :=
+	<Identifier> | <Identifier> , <InferredFormalParameterList>
+
+<LambdaBody> :=
+	<Expression> | <Block>
+
+<AssignmentExpression> :=
+	<ConditionalExpression> | <Assignment>
+
+<Assignment> :=
+	<LeftHandSide> <AssignmentOperator> <Expression>
+
+<LeftHandSide> :=
+	<ExpressionName> | <FieldAccess> | <ArrayAccess>
+
+<AssignmentOperator> :=
+	=  | *=  | /=  | %=  | +=  | -=  | <<= |  >>= |  >>>=  | &= |  ^=  | |=
+
+<ConditionalExpression> :=
+	<ConditionalOrExpression> |
+	<ConditionalOrExpression> ? <Expression> : <ConditionalExpression> |
+	<ConditionalOrExpression> ? <Expression> : <LambdaExpression>
+
+<ConditionalOrExpression> :=
+	<ConditionalAndExpression> | <ConditionalOrExpression> || <ConditionalAndExpression>
+
+<ConditionalAndExpression> :=
+	<InclusiveOrExpression> | <ConditionalAndExpression> && <InclusiveOrExpression>
+
+<InclusiveOrExpression> :=
+	<ExclusiveOrExpression> | <InclusiveOrExpression> '|' <ExclusiveOrExpression>
+
+ExclusiveOrExpression :=
+	<AndExpression> | <ExclusiveOrExpression> ^ <AndExpression>
+
+<AndExpression> :=
+	<EqualityExpression> | <AndExpression> & <EqualityExpression>
+
+<EqualityExpression> :=
+	<RelationalExpression> |
+	<EqualityExpression> == <RelationalExpression> |
+	<EqualityExpression> != <RelationalExpression>
+
+<RelationalExpression> :=
+	<ShiftExpression> |
+	<RelationalExpression> < <ShiftExpression> |
+	<RelationalExpression> > <ShiftExpression> |
+	<RelationalExpression> <= <ShiftExpression> |
+	<RelationalExpression> >= <ShiftExpression> |
+	<RelationalExpression> instanceof <ReferenceType>
+
+<ShiftExpression> :=
+	<AdditiveExpression> |
+	<ShiftExpression> << <AdditiveExpression> |
+	<ShiftExpression> >> <AdditiveExpression> |
+	<ShiftExpression> >>> <AdditiveExpression>
+
+<AdditiveExpression> :=
+	<MultiplicativeExpression> |
+	<AdditiveExpression> + <MultiplicativeExpression> |
+	<AdditiveExpression> - <MultiplicativeExpression>
+
+<MultiplicativeExpression> :=
+	<UnaryExpression> |
+	<MultiplicativeExpression> * <UnaryExpression> |
+	<MultiplicativeExpression> / <UnaryExpression> |
+	<MultiplicativeExpression> % <UnaryExpression>
+
+<UnaryExpression> :=
+	<PreIncrementExpression> |
+	<PreDecrementExpression> |
+	+ <UnaryExpression> |
+	- <UnaryExpression> |
+	<UnaryExpressionNotPlusMinus>
+
+<PreIncrementExpression> :=
+	++ <UnaryExpression>
+
+<PreDecrementExpression> :=
+	-- <UnaryExpression>
+
+<UnaryExpressionNotPlusMinus> :=
+	<PostfixExpression> |
+	~ <UnaryExpression> |
+	! <UnaryExpression> |
+	<CastExpression>
+
+<PostfixExpression> :=
+	<Primary> |
+	<ExpressionName> |
+	<PostIncrementExpression> |
+	<PostDecrementExpression>
+
+<PostIncrementExpression> :=
+	<PostfixExpression> ++
+
+<PostDecrementExpression> :=
+	<PostfixExpression> --
+
+<CastExpression> :=
+	( <PrimitiveType> ) <UnaryExpression> |
+	( <ReferenceType> <AdditionalBoundList> ) <UnaryExpressionNotPlusMinus> |
+	( <ReferenceType> ) <UnaryExpressionNotPlusMinus> |
+	( <ReferenceType> <AdditionalBoundList> ) <LambdaExpression> |
+	( <ReferenceType> ) <LambdaExpression>
+
+<ConstantExpression> :=
+	<Expression>
